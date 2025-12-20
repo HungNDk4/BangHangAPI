@@ -32,6 +32,28 @@ namespace BangHangAPI.Controllers
             _context.SaveChanges();
             return StatusCode(201, loai);
         
+        
+      }
+        // PUT: api/Loai/1 (Số 1 là id cần sửa)
+        [HttpPut("{id}")]
+        public IActionResult UpdateLoaiById(int id, Loai loaiEdit)
+        {
+            // Bước 1: Tìm xem có cái loại đó trong kho không?
+            var loaiCanSua = _context.loais.SingleOrDefault(lo => lo.MaLoai == id);
+
+            // Nếu tìm không thấy -> Báo lỗi 404 Not Found
+            if (loaiCanSua == null)
+            {
+                return NotFound();
+            }
+
+            // Bước 2: Nếu thấy -> Sửa thông tin
+            loaiCanSua.TenLoai = loaiEdit.TenLoai;
+
+            // Bước 3: Lưu thay đổi
+            _context.SaveChanges();
+
+            return Ok(loaiCanSua); // Trả về cục đã sửa xong
         }
 
     }
