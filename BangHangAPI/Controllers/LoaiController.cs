@@ -35,11 +35,19 @@ namespace BangHangAPI.Controllers
         
       }
         // PUT: api/Loai/1 (Số 1 là id cần sửa)
+<<<<<<< HEAD
         [HttpPut("{id}")] // cần id thì mới update đc 
         public IActionResult UpdateLoaiById(int id, Loai loaiEdit)
         {
             // Tìm xem có cái loại đó trong kho không?
             var loaiCanSua = _context.loais.SingleOrDefault(loai => loai.MaLoai == id);
+=======
+        [HttpPut("{id}")]
+        public IActionResult UpdateLoaiById(int id, Loai loaiEdit)
+        {
+            // Bước 1: Tìm xem có cái loại đó trong kho không?
+            var loaiCanSua = _context.loais.SingleOrDefault(lo => lo.MaLoai == id);
+>>>>>>> 465470dd3a1f3fee022f4b95e9c5821b26187609
 
             // Nếu tìm không thấy -> Báo lỗi 404 Not Found
             if (loaiCanSua == null)
