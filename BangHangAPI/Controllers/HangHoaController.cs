@@ -1,74 +1,80 @@
-﻿using BangHangAPI.Data;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿    using BangHangAPI.Data;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
 
-namespace BangHangAPI.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class HangHoaController : ControllerBase
+    namespace BangHangAPI.Controllers
     {
-        private readonly BanHangContext _context;
-        public HangHoaController(BanHangContext context)
+        [Route("api/[controller]")]
+        [ApiController]
+        public class HangHoaController : ControllerBase
         {
-            _context = context;
-        }
-        [HttpGet]
-        public IActionResult GetAll() {
-            var dsHangHoa = _context.hanghoa.ToList();
-            return Ok(dsHangHoa);
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetbyId(int id) {
-            var hanghoa = _context.hanghoa.FirstOrDefault(hh => hh.MaHangHoa == id);
-
-            if (hanghoa == null) {
-                return NotFound();
+            private readonly BanHangContext _context;
+            public HangHoaController(BanHangContext context)
+            {
+                _context = context;
             }
-            // nếu thấy thì trả dữ liệu về 
-            return Ok(hanghoa);
-        }
+            [HttpGet]
+            public IActionResult GetAll() {
+                var dsHangHoa = _context.hanghoa.ToList();
+                return Ok(dsHangHoa);
+            }
 
-        //them mới sản phầm
-        [HttpPost]
-        public IActionResult Create(HangHoa hanghoa) {
-            // thêm dữ liệu vào database
-            _context.hanghoa.Add(hanghoa);
-            // lưu thay đổi 
-            _context.SaveChanges();
+            [HttpGet("{id}")]
+            public IActionResult GetbyId(int id) {
+                var hanghoa = _context.hanghoa.FirstOrDefault(hh => hh.MaHangHoa == id);
 
-            return StatusCode(201, hanghoa);
-        }
+                if (hanghoa == null) {
+                    return NotFound();
+                }
+                // nếu thấy thì trả dữ liệu về 
+                return Ok(hanghoa);
+            }
+
+            //them mới sản phầm
+            [HttpPost]
+            public IActionResult Create(HangHoa hanghoa) {
+                // thêm dữ liệu vào database
+                _context.hanghoa.Add(hanghoa);
+                // lưu thay đổi 
+                _context.SaveChanges();
+
+                return StatusCode(201, hanghoa);
+            }
         // sửa hàng hoá 
         //Put/api/1
 
-        [HttpPost("{id}")]
-        public IActionResult UpdateByID(int id , HangHoa hangHoaEdit) { 
-           var hangHoa = _context.hanghoa.FirstOrDefault(hh => hh.MaHangHoa==id);
+        [HttpPut("{id}")]
+            public IActionResult UpdateByID(int id , HangHoa hangHoaEdit) { 
+               var hangHoa = _context.hanghoa.FirstOrDefault(hh => hh.MaHangHoa==id);
 
-            if (hangHoa== null) {
-                return NotFound();
+                if (hangHoa== null) {
+                    return NotFound();
+                }
+
+                hangHoa.TenHangHoa = hangHoaEdit.TenHangHoa;
+                hangHoa.DonGia = hangHoaEdit.DonGia;
+                hangHoa.MaLoai = hangHoaEdit.MaLoai;
+
+                _context.SaveChanges();
+
+                return Ok(hangHoa);
             }
 
-            hangHoa.TenHangHoa = hangHoaEdit.TenHangHoa;
-            hangHoa.DonGia = hangHoaEdit.DonGia;
-            hangHoa.MaLoai = hangHoaEdit.MaLoai;
+            [HttpDelete("{id}")]
+            public IActionResult Delete(int id) {
+                var hanghoa = _context.hanghoa.FirstOrDefault(hh => hh.MaHangHoa == id);
+
+                if (hanghoa == null) {
+                    return NotFound();
+                }
+                _context.Remove(hanghoa);
 
             _context.SaveChanges();
 
-            return Ok(hangHoa);
+            return StatusCode(200); 
+            }
 
 
-
-
-            
-
-        
-        
         }
 
-
     }
-
-}
