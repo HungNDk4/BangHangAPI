@@ -14,16 +14,16 @@ namespace BangHangAPI.Controllers
             _context = context;
         }
         [HttpGet]
-        public IActionResult GetAll() { 
-        var dsHangHoa = _context.hanghoa.ToList();
-        return Ok(dsHangHoa);
+        public IActionResult GetAll() {
+            var dsHangHoa = _context.hanghoa.ToList();
+            return Ok(dsHangHoa);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetbyId(int id) {
             var hanghoa = _context.hanghoa.FirstOrDefault(hh => hh.MaHangHoa == id);
 
-            if (hanghoa == null) { 
+            if (hanghoa == null) {
                 return NotFound();
             }
             // nếu thấy thì trả dữ liệu về 
@@ -32,15 +32,41 @@ namespace BangHangAPI.Controllers
 
         //them mới sản phầm
         [HttpPost]
-        public IActionResult Create(HangHoa hanghoa) { 
-             // thêm dữ liệu vào database
+        public IActionResult Create(HangHoa hanghoa) {
+            // thêm dữ liệu vào database
             _context.hanghoa.Add(hanghoa);
             // lưu thay đổi 
             _context.SaveChanges();
 
             return StatusCode(201, hanghoa);
-               }
-    
+        }
+        // sửa hàng hoá 
+        //Put/api/1
+
+        [HttpPost("{id}")]
+        public IActionResult UpdateByID(int id , HangHoa hangHoaEdit) { 
+           var hangHoa = _context.hanghoa.FirstOrDefault(hh => hh.MaHangHoa==id);
+
+            if (hangHoa== null) {
+                return NotFound();
+            }
+
+            hangHoa.TenHangHoa = hangHoaEdit.TenHangHoa;
+            hangHoa.DonGia = hangHoaEdit.DonGia;
+            hangHoa.MaLoai = hangHoaEdit.MaLoai;
+
+            _context.SaveChanges();
+
+            return Ok(hangHoa);
+
+
+
+
+            
+
+        
+        
+        }
 
 
     }
