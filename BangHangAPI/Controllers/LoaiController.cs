@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BangHangAPI.Data;
+using BangHangAPI.Services;
 
 namespace BangHangAPI.Controllers
 {
@@ -8,71 +9,57 @@ namespace BangHangAPI.Controllers
     [ApiController]
     public class LoaiController : ControllerBase
     {
-        private readonly BanHangContext _context;
+        //private readonly BanHangContext _context;
 
-        public LoaiController(BanHangContext context)
-        {
-            _context = context;
-        }
+        //public LoaiController(BanHangContext context)
+        //{
+        //    _context = context;
+        //}
+
+
+        private readonly LoaiService _service;
+        
+        public LoaiController(LoaiService service) { _service = service; }
+        
+        
+        
         // 2. API Lấy tất cả danh sách loại
         // GET: api/Loai
         [HttpGet]
         public IActionResult GetAll()
         {
-            //logic vào DB => lấy bảng loại -> chuyển thành list 
-            var dsloai= _context.loais.ToList();
+          
+            var dsloai= _service.GetAll();
 
             return  Ok(dsloai);
         }
 
         [HttpPost]
-        public IActionResult Create(Loai loai) { 
-           _context.loais.Add(loai);
-
-            _context.SaveChanges();
-            return StatusCode(201, loai);
-        
-        
+        public IActionResult Create(Loai loaiMoi) { 
+           var Loai = _service.Create(loaiMoi);
+            return StatusCode(201, Loai);
       }
+
         // PUT: api/Loai/1 (Số 1 là id cần sửa)
 
         [HttpPut("{id}")]
         public IActionResult UpdateLoaiById(int id, Loai loaiEdit)
         {
-            // Bước 1: Tìm xem có cái loại đó trong kho không?
-            var loaiCanSua = _context.loais.SingleOrDefault(lo => lo.MaLoai == id);
-
-
-            // Nếu tìm không thấy -> Báo lỗi 404 Not Found
-            if (loaiCanSua == null)
-            {
-                return NotFound();
-            }
-
-            // Bước 2: Nếu thấy -> Sửa thông tin
-            loaiCanSua.TenLoai = loaiEdit.TenLoai;
-
-            // Bước 3: Lưu thay đổi
-            _context.SaveChanges();
-
-            return Ok(loaiCanSua); // Trả về cục đã sửa xong
+            var Loai = _service.Update(id, loaiEdit);
+            if(Loai != null)
+            return NotFound();
+                
+            
+            return Ok(Loai);
         }
         [HttpDelete("{id}")]
         public IActionResult DeleteLoaiById(int id) {
             // tìm id có có tồn tại 
 
-            var LoaiCanXoa = _context.loais.SingleOrDefault(xoa => xoa.MaLoai == id);
-            if (LoaiCanXoa == null)
-            {
+            var success = _service.Delete(id);
+            if(!success)
                 return NotFound();
-            }
-
-            //thuc hien xoa
-            _context.loais.Remove(LoaiCanXoa);
-            //save
-            _context.SaveChanges();
-
-            return StatusCode(200);
+            return NoContent();
         }
 
 
