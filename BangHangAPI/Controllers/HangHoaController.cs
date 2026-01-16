@@ -1,12 +1,12 @@
-﻿    using BangHangAPI.Data;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
+﻿using BangHangAPI.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using BangHangAPI.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using BangHangAPI.Services;
 
 namespace BangHangAPI.Controllers
-    {
+{
     [Route("api/[controller]")]
     [ApiController]
     public class HangHoaController : ControllerBase
@@ -45,10 +45,12 @@ namespace BangHangAPI.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult GetbyId(int id) {
+        public IActionResult GetbyId(int id)
+        {
             var hanghoa = _service.GetById(id);
 
-            if (hanghoa == null) {
+            if (hanghoa == null)
+            {
                 return NotFound();
             }
 
@@ -66,7 +68,8 @@ namespace BangHangAPI.Controllers
         //Put/api/1
 
         [HttpPut("{id}")]
-        public IActionResult UpdateById(int id, HangHoa hangHoaEdit) {
+        public IActionResult UpdateById(int id, HangHoa hangHoaEdit)
+        {
 
             var hanghoa = _service.Update(id, hangHoaEdit);
 
@@ -77,7 +80,8 @@ namespace BangHangAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id) {
+        public IActionResult Delete(int id)
+        {
             var hanghoa = _service.Delete(id);
             if (!hanghoa)
                 return NotFound();
@@ -86,14 +90,15 @@ namespace BangHangAPI.Controllers
         }
 
         [HttpGet("search")]
-        public IActionResult Search(string keyword) { 
-        var result = _service.Search(keyword);
-        
+        public IActionResult Search(string keyword)
+        {
+            var result = _service.Search(keyword);
+
             return Ok(result);
         }
-            
 
 
-        }
 
     }
+
+}

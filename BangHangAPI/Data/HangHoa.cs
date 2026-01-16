@@ -11,12 +11,14 @@ namespace BangHangAPI.Data
 
         [Required]
         [MaxLength(50)]
-        public string TenHangHoa { get; set; }
+        public string TenHangHoa { get; set; } = string.Empty;
 
-        public double DonGia { get; set; }
+        public decimal DonGia { get; set; } = decimal.Zero;
+
+        public int SoLuongTon { get; set; } = 0;
 
         // 1. Phải có dòng này để hứng số 1 (quan trọng)
-        public int MaLoai { get; set; }
+        public int MaLoai { get; set; } 
 
         // 2. Thêm dấu ? vào đây để bảo: "Cái này có thể rỗng, đừng bắt bẻ tao"
         [ForeignKey("MaLoai")]

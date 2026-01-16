@@ -12,8 +12,11 @@ namespace BangHangAPI.Data
         public DbSet<Loai> loais { get; set; }
 
         //khai bao quan li bang HangHoa
-
         public DbSet<HangHoa> hanghoa { get; set; }
+        //khai bao quan li bang order
+        public DbSet<Order> Orders { get; set; }
+        //khai bao quan li bang chi tiet order
+        public DbSet<OrderItem> OrderItems { get; set; }
         #endregion
 
 

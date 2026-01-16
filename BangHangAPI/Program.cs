@@ -1,4 +1,5 @@
 ﻿using BangHangAPI.Data;
+using BangHangAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace BangHangAPI
@@ -11,6 +12,10 @@ namespace BangHangAPI
 
             // 1. Add services to the container.
             builder.Services.AddControllers();
+            builder.Services.AddScoped<LoaiService>();
+            builder.Services.AddScoped<HangHoaService>();
+            builder.Services.AddScoped<OrderService>();
+
 
             // Cấu hình Swagger cho .NET 8
             builder.Services.AddEndpointsApiExplorer();
