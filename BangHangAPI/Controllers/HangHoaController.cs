@@ -90,9 +90,14 @@ namespace BangHangAPI.Controllers
         }
 
         [HttpGet("search")]
-        public IActionResult Search(string keyword)
+        public IActionResult Search(
+        [FromQuery] string? keyword,
+        [FromQuery] decimal? minPrice,
+        [FromQuery] decimal? maxPrice,
+        [FromQuery] int? maLoai)
         {
-            var result = _service.Search(keyword);
+            var result = _service.Search(keyword, minPrice, maxPrice, maLoai);
+
 
             return Ok(result);
         }
