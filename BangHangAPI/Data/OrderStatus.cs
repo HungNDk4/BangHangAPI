@@ -3,7 +3,7 @@
     public enum OrderStatus
     {
         Pending = 1,
-        Comfirmed = 2,
+        Confirmed = 2,
         Canceled = 4
     }
 }
