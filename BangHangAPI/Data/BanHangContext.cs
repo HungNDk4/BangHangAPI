@@ -17,6 +17,8 @@ namespace BangHangAPI.Data
         public DbSet<Order> Orders { get; set; }
         //khai bao quan li bang chi tiet order
         public DbSet<OrderItem> OrderItems { get; set; }
+
+        public DbSet<User> users { get; set; }
         #endregion
 
 
